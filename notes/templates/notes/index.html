@@ -19,8 +19,12 @@
         const msgbody = $("#msgbody");
         const notes = localStorage.getItem("notes");
 
-        msg.val(notes);
-        msgbody.html(notes);
+        if (notes) {
+            msg.val(notes);
+            msgbody.html(notes);
+        } else {
+            msgbody.html("Start typing...")
+        }
 
         msg.on("input", function () {
             msgbody.html(msg.val()
