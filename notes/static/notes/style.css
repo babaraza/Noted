@@ -1,0 +1,21 @@
+body {
+    background: rgb(96, 38, 193) linear-gradient(45deg, rgba(96, 38, 193, 1) 0%, rgba(54, 117, 241, 1) 100%) fixed;
+}
+
+@font-face {
+    font-family: 'Somatic';
+    src: local('Somatic-Rounded'), url('fonts/Somatic-Rounded.otf');
+}
+
+#msgbody {
+    font-size: 100px;
+    font-family: "Somatic", serif;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: pre-wrap;
+}
+
+#msginput {
+    opacity: 0;
+    height: 1px;
+}
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "notes/style.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Noted</title>
+</head>
+<body>
+<textarea id="msginput" rows="5" cols="5" autofocus></textarea>
+<div id="msgbody"></div>
+
+<script>
+    $(function () {
+
+        const msg = $("#msginput");
+        const msgbody = $("#msgbody");
+        const notes = localStorage.getItem("notes");
+
+        msg.val(notes);
+        msgbody.html(notes);
+
+        msg.on("input", function () {
+            msgbody.html(msg.val()
+                .replace(':)', '😀')
+                .replace(':(', '🙁')
+                .replace('coffee', '☕️')
+            );
+        });
+
+        $(document).on('click', function () {
+            msg.focus();
+        });
+
+        msg.on("input", function () {
+            localStorage.setItem("notes", msg.val());
+        });
+    });
+
+</script>
+</body>
+</html>
