@@ -20,19 +20,12 @@
     });
 
     $(function () {
-
         const msg = $("#msginput");
         const msgbody = $("#msgbody");
         const notes = localStorage.getItem("notes");
 
         function emojify(raw_input) {
-            let array_from_input = raw_input.split(" ");
-            array_from_input.map(function (word) {
-                if (word.length >= 5) {
-                    array_from_input[array_from_input.indexOf(word)] = emoji_data[word] ? emoji_data[word] : word
-                }
-            });
-            return array_from_input.join(" ");
+            return raw_input.replace(/(:\w+:)/g, (word) => (word in emoji_data) ? emoji_data[word] : word);
         }
 
         if (notes) {
@@ -44,15 +37,13 @@
         }
 
         msg.on("input", function () {
-            msgbody.html(emojify(msg.val()));
+            let new_data = emojify(msg.val());
+            msgbody.html(new_data);
+            localStorage.setItem("notes", new_data);
         });
 
         $(document).on('click', function () {
             msg.focus();
-        });
-
-        msg.on("input", function () {
-            localStorage.setItem("notes", msg.val());
         });
     });
 
