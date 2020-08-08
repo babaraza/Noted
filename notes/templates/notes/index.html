@@ -13,29 +13,38 @@
 <div id="msgbody"></div>
 
 <script>
+    let emoji_data;
+
+    $.getJSON("{% static "notes/emojis.json" %}", function (json) {
+        emoji_data = json;
+    });
+
     $(function () {
 
         const msg = $("#msginput");
         const msgbody = $("#msgbody");
         const notes = localStorage.getItem("notes");
 
+        function emojify(raw_input) {
+            let array_from_input = raw_input.split(" ");
+            array_from_input.map(function (word) {
+                if (word.length >= 5) {
+                    array_from_input[array_from_input.indexOf(word)] = emoji_data[word] ? emoji_data[word] : word
+                }
+            });
+            return array_from_input.join(" ");
+        }
+
         if (notes) {
-            msg.val(notes);
-            msgbody.html(notes);
+            let formatted_data = emojify(notes)
+            msg.val(formatted_data);
+            msgbody.html(formatted_data);
         } else {
             msgbody.html("Start typing...")
         }
 
         msg.on("input", function () {
-            msgbody.html(msg.val()
-                .replace(':)', '😀')
-                .replace(':(', '🙁')
-                .replace('coffee', '☕️')
-                .replace('time', '⌛️')
-                .replace('date', '🗓')
-                .replace('calendar', '🗓')
-                .replace('food', '🍽')
-            );
+            msgbody.html(emojify(msg.val()));
         });
 
         $(document).on('click', function () {
